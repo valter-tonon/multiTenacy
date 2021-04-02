@@ -1,2 +1,5 @@
 backend3
 frontend
+.docker
+.npm-cache
+.env
