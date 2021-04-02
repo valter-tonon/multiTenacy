@@ -53,7 +53,7 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
 
         $globalSql = $this->synchronizer->getCreateSchema($global);
         if ($globalSql) {
-            $sql[] = "-- CategoryCreate Root Federation\n" .
+            $sql[] = "-- Create Root Federation\n" .
                      'USE FEDERATION ROOT WITH RESET;';
             $sql   = array_merge($sql, $globalSql);
         }
@@ -276,7 +276,7 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
         $federationType    = Type::getType($this->shardManager->getDistributionType());
         $federationTypeSql = $federationType->getSQLDeclaration([], $this->conn->getDatabasePlatform());
 
-        return "--CategoryCreate Federation\n"
+        return "--Create Federation\n"
             . 'CREATE FEDERATION ' . $this->shardManager->getFederationName()
             . ' (' . $this->shardManager->getDistributionKey()
             . ' ' . $federationTypeSql . '  RANGE)';
