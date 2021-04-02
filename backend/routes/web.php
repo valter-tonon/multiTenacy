@@ -12,6 +12,7 @@
 */
 
 use App\Models\Category;
+use App\Models\Departamento;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -42,7 +43,10 @@ Route::group(['prefix' => '/{prefix}', 'as' => 'tenant.'], function () {
             Route::name('categorias.store')->post('', 'CategoryController@store');
             Route::name('categorias-create')->get('/cadastrar', function () {
                 return Inertia::render('Categorias/CategoryCreate',
-                    ['user' => Auth::guard('tenant')->user()->name]);
+                    [
+                        'user' => Auth::guard('tenant')->user()->name,
+                        'departamentos' => Departamento::all()
+                    ]);
             });
             Route::name('categorias-show')->get('/{id}', 'CategoryController@show');
             Route::name('categorias.update')->put('/{id}', 'CategoryController@update');

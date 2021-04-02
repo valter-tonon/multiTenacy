@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -15,17 +16,16 @@ class CategoryController extends Controller
     ];
     public function index()
     {
-        $categories = Category::all();
-
+        $categories = Category::with('departamento')->get();
         return Inertia::render('Categorias', ['categorias' => $categories ,
             'user' => Auth::guard('tenant')->user()->name,
-            'prefix' => \Request::route('prefix')]);
+            'prefix' => \Request::route('prefix'),
+        ]);
     }
 
     public function store(Request $request)
     {
-        $categoria = $this->validate($request, $this->rules);
-        Category::create($categoria);
+        Category::create($request->all());
         return $this->success('Categoria criada com sucesso');
     }
 
@@ -43,11 +43,12 @@ class CategoryController extends Controller
     {
         $id = explode('/',$request->path())[2];
         $categoria = Category::where('id' , $id)->get()->first();
-
+        $depatamentos = Departamento::all();
         return Inertia::render('Categorias/CategoryCreate', [
             'category' => $categoria,
             'user' => Auth::guard('tenant')->user()->name,
-            'prefix' => \Request::route('prefix')
+            'prefix' => \Request::route('prefix'),
+            'departamentos' => $depatamentos
         ]);
 
     }
@@ -63,7 +64,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $id = explode('/',$request->path())[2];
-        Category::where('id', $id)->update($request->validate($this->rules));
+        Category::where('id', $id)->update($request->all());
         return $this->success('Categoria alterada com sucesso');
     }
 }

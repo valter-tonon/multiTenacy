@@ -78,87 +78,91 @@ const Categorias = (props) => {
             })
     }
     return (
-    <Menu title="Categorias" user={usuario}>
+        <Menu title="Categorias" user={usuario}>
             <Box dir={'rtl'} style={{display: 'flex', alignItems: 'end', marginBottom: "20px"}}>
                 <Fab color={"primary"} size={"large"} component={InertiaLink} href={ route('tenant.categorias-create', props.prefix)}>
                     <Add/>
                 </Fab>
             </Box>
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-                <TableHead className={classes.head}>
-                    <TableRow>
-                        <StyledTableCell>Cod </StyledTableCell>
-                        <StyledTableCell>Nome</StyledTableCell>
-                        <StyledTableCell align="right">Ações</StyledTableCell>
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table">
+                    <TableHead className={classes.head}>
+                        <TableRow>
+                            <StyledTableCell>Cod </StyledTableCell>
+                            <StyledTableCell>Nome</StyledTableCell>
+                            <StyledTableCell>Url</StyledTableCell>
+                            <StyledTableCell>Departamento</StyledTableCell>
+                            <StyledTableCell align="right">Ações</StyledTableCell>
 
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        props.categorias.length < 1 &&
-                        <StyledTableRow>
-                            <StyledTableCell component="th" className="text-center w-100">
-                                Nenhum Registro Encontrado
-                            </StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            props.categorias.length < 1 &&
+                            <StyledTableRow>
+                                <StyledTableCell component="th" className="text-center w-100">
+                                    Nenhum Registro Encontrado
+                                </StyledTableCell>
 
-                        </StyledTableRow>
+                            </StyledTableRow>
 
-                    }
-                    {props.categorias.map(( categoria, key) => (
-                        <StyledTableRow key={key}>
-                            <StyledTableCell component="th" scope="categoria">
-                                {categoria.id.substring(0, 5)}
-                            </StyledTableCell>
-                            <StyledTableCell>{ categoria.name }</StyledTableCell>
-                            <StyledTableCell align={"right"}>
-                                <Fab style={{ background: 'none', boxShadow: 'none'}}
-                                     size={"large"}
-                                     component={InertiaLink}
-                                     href={`/${props.prefix}/categorias/${categoria.id}`}
-                                >
-                                    <Edit color={"primary"}/>
-                                </Fab>
-                                <Fab style={{ background: 'none', boxShadow: 'none'}} size={"large"}
-                                     onClick={()=>destroy(categoria.id)}>
-                                    <Delete color={"secondary"}/>
-                                </Fab>
-                            </StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                            colSpan={3}
-                            count={props.categorias.length}
-                            rowsPerPage={10}
-                            SelectProps={{
-                                inputProps: { 'aria-label': 'Itens por página' },
-                                native: true,
-                            }}
-                            page={0}
-                            ActionsComponent={TablePaginationActions}
-                            labelRowsPerPage={'Itens por página'}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
-        {
-            open &&
-            <AlertDialog open={state.confirmEl} onClose={() => setState({isDeleted: null})}
-                         onConfirm={() => deleteCategoria(state.id)}/>
-        }
-        {
-            loading && <Loading open={loading} msg={'Carregando'}/>
-        }
+                        }
+                        {props.categorias.map(( categoria, key) => (
+                            <StyledTableRow key={key}>
+                                <StyledTableCell component="th" scope="categoria">
+                                    {categoria.id.substring(0, 5)}
+                                </StyledTableCell>
+                                <StyledTableCell>{ categoria.name }</StyledTableCell>
+                                <StyledTableCell>{ categoria.slug }</StyledTableCell>
+                                <StyledTableCell>{ categoria.departamento.name }</StyledTableCell>
+                                <StyledTableCell align={"right"}>
+                                    <Fab style={{ background: 'none', boxShadow: 'none'}}
+                                         size={"large"}
+                                         component={InertiaLink}
+                                         href={`/${props.prefix}/categorias/${categoria.id}`}
+                                    >
+                                        <Edit color={"primary"}/>
+                                    </Fab>
+                                    <Fab style={{ background: 'none', boxShadow: 'none'}} size={"large"}
+                                         onClick={()=>destroy(categoria.id)}>
+                                        <Delete color={"secondary"}/>
+                                    </Fab>
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                colSpan={3}
+                                count={props.categorias.length}
+                                rowsPerPage={10}
+                                SelectProps={{
+                                    inputProps: { 'aria-label': 'Itens por página' },
+                                    native: true,
+                                }}
+                                page={0}
+                                ActionsComponent={TablePaginationActions}
+                                labelRowsPerPage={'Itens por página'}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+            {
+                open &&
+                <AlertDialog open={state.confirmEl} onClose={() => setState({isDeleted: null})}
+                             onConfirm={() => deleteCategoria(state.id)}/>
+            }
+            {
+                loading && <Loading open={loading} msg={'Carregando'}/>
+            }
 
-    </Menu>
+        </Menu>
 
 
-);
+    );
 };
 
 export default Categorias

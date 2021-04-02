@@ -16,7 +16,6 @@ const Create = (props) => {
 
     const onSubmit = data => {
         if (! props.departamento) {
-            console.log('aqui')
             axios.post(`${route('tenant.departamentos.store', props.prefix)}`, data)
                 .then((res) => {
                         if (res.data.status === 200){
@@ -68,19 +67,20 @@ const Create = (props) => {
                     helperText={errors.name && errors.name.message}
                 />
                 {errors.name && <p className={"text text-danger"}>O nome é obrigatório!</p>}
-                <TextField
-                    variant={'outlined'}
-                    label={'URL'}
-                    name={'url'}
-                    fullWidth
-                    defaultValue={props.departamento ? props.departamento.url : ''}
-                    margin={"normal"}
-                    inputRef={register({required: true})}
-                    error={errors.url !== undefined}
-                    helperText={errors.url && errors.url.message}
-                />
-                {errors.url && <p className={"text text-danger"}>A URL é obrigatória!</p>}
-
+                {
+                    props.departamento &&
+                    <TextField
+                        variant={'outlined'}
+                        label={'URL'}
+                        name={'url'}
+                        fullWidth
+                        defaultValue={props.departamento ? props.departamento.url : ''}
+                        margin={"normal"}
+                        inputRef={register}
+                        error={errors.url !== undefined}
+                        helperText={errors.url && errors.url.message}
+                    />
+                }
                 <TextField
                     variant={'outlined'}
                     label={'Descrição'}

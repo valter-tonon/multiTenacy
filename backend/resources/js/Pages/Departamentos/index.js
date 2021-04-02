@@ -92,6 +92,7 @@ const Departamentos = (props) => {
                             <StyledTableCell>Cod </StyledTableCell>
                             <StyledTableCell>Nome</StyledTableCell>
                             <StyledTableCell>Descrição</StyledTableCell>
+                            <StyledTableCell>URL</StyledTableCell>
                             <StyledTableCell align="right">Ações</StyledTableCell>
 
                         </TableRow>
@@ -99,9 +100,9 @@ const Departamentos = (props) => {
                     <TableBody>
                         {
                             !props.departamentos &&
-                                <StyledTableRow>
-                                    Nenhum Registro Encontrado
-                                </StyledTableRow>
+                            <StyledTableRow>
+                                Nenhum Registro Encontrado
+                            </StyledTableRow>
 
                         }
                         { props.departamentos.map((item, key) => (
@@ -111,6 +112,7 @@ const Departamentos = (props) => {
                                 </StyledTableCell>
                                 <StyledTableCell>{item.name}</StyledTableCell>
                                 <StyledTableCell>{item.description}</StyledTableCell>
+                                <StyledTableCell>{item.url}</StyledTableCell>
                                 <StyledTableCell align={"right"}>
                                     <Fab style={{ background: 'none', boxShadow: 'none'}}
                                          size={"large"}
