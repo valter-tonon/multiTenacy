@@ -16,43 +16,46 @@ class MarcasController extends Controller
      */
     public function index()
     {
+
         $marcas  = Marcas::all();
         return Inertia::render('Marcas', ['marcas' => $marcas,
             'user' => Auth::guard('tenant')->user()->name,
             'prefix' => \Request::route('prefix')
-            ]);
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return Inertia::render('Marcas/Create',[
+            'user' => Auth::guard('tenant')->user()->name,
+            'prefix' => \Request::route('prefix')
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        Marcas::create($request->all());
+        return $this->success('Marca criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Marcas  $marcas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Marcas $marcas)
+
+    public function show(Request $request)
     {
-        //
+        $id = explode('/',$request->path())[2];
+        $marca = Marcas::where('id', $id)->get()->first();
+        return Inertia::render('Marcas/Create', [
+            'marca' => $marca,
+            'user' => Auth::guard('tenant')->user()->name,
+            'prefix' => \Request::route('prefix')
+        ]);
+
     }
 
     /**
@@ -66,16 +69,14 @@ class MarcasController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Marcas  $marcas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Marcas $marcas)
+    public function update(Request $request)
     {
-        //
+        $id = explode('/', $request->path())[2];
+        $brand = Marcas::where('id', $id)->get()->first();
+        if ($brand->update($request->all())){
+            return $this->success('Marca alterada com sucesso');
+        }
+        return $this->error('Erro ao alterar a marca');
     }
 
     /**

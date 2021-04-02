@@ -70,6 +70,10 @@ Route::group(['prefix' => '/{prefix}', 'as' => 'tenant.'], function () {
         });
         Route::group(['prefix'  => 'marcas'], function() {
             Route::name('marcas.index')->get('', 'MarcasController@index');
+            Route::name('marcas.brand-create')->get('/cadastrar', 'MarcasController@create');
+            Route::name('marcas.store')->post('/cadastrar', 'MarcasController@store');
+            Route::name('edit')->get('/{id}', 'MarcasController@show');
+            Route::name('update')->put('/{id}', 'MarcasController@update');
         });
 
 

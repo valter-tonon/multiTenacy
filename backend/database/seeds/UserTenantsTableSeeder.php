@@ -14,7 +14,7 @@ class UserTenantsTableSeeder extends Seeder
     {
         $company = Tenant::getTenant();
         factory(UserTenant::class)->create([
-            'email' => "user1@{$company->prefix}.com"
+            'email' => "user1@master.com"
         ]);
     }
 }
